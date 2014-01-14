@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
 // multipliers on Altera FPGAs.
 //
 // Input: 20-bit unsigned fixed point integer upscaled by 2^20
-// Output: 18-bit Two's complement fixed point integer upscaled by 2^17
+// Output: 18-bit two's complement fixed point integer upscaled by 2^17
 int64_t sine(uint64_t value) {
     // These are polynomial constants generated for each term in the Taylor
     // series. They have been upscaled to the largest value that fits within
@@ -148,7 +148,7 @@ int64_t sine(uint64_t value) {
 // multipliers on Altera FPGAs.
 //
 // Input: 20-bit unsigned fixed point integer upscaled by 2^20
-// Output: 18-bit Two's complement fixed point integer upscaled by 2^17
+// Output: 18-bit two's complement fixed point integer upscaled by 2^17
 int64_t cosine(uint64_t value) {
     // These are polynomial constants generated for each term in the Taylor
     // series. They have been upscaled to the largest value that fits within
