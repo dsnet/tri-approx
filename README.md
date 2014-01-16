@@ -25,8 +25,11 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
+*Mention Taylor series*
 
-![tri-approx-chart1](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart1-lite.png)
+*Mention how reflection is used*
+
+*Mention how only 4 constants are used*
 
 The following Python code demonstrates how the
 
@@ -39,9 +42,11 @@ for i in range(1,9):
 	print i, int(round(val*2**scale)), scale
 ```
 
-![tri-approx-chart2](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart2-lite.png)
-
 ## Results ##
+
+![tri-approx-chart1](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart1-lite.png)
+
+![tri-approx-chart2](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart2-lite.png)
 
 ## References ##
 
