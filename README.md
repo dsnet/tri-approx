@@ -17,12 +17,11 @@ Since this experiment was targetted towards Altera FPGAs, the bit-width of 18
 will appear frequently in the example implementation. This is due to the fact
 that Altera hardware multipliers are take 18b wide inputs and have 36b outputs.
 As such the sine and cosine functions will take in a 20b unsigned fixed-point
-integer upscaled by 2<sup>20</sup> and output a 18b two's complement fixed-point
-integer upscaled by 2<sup>17</sup>. Notice that the domain of the input is [0,1)
-and the range of the output is [-1,+1). This is because the sine and cosine
-functions implemented here are normalized such that 0 maps to 0.0 and
-2π maps to 1.0. In other words, the functions being implemented are actually
-sine(2πx) and cosine(2πx).
+integer upscaled by 2²⁰ and output a 18b two's complement fixed-point integer
+upscaled by 2¹⁷. Notice that the domain of the input is [0,1) and the range of
+the output is [-1,+1). This is because the sine and cosine functions implemented
+here are normalized such that 0 maps to 0.0 and 2π maps to 1.0. In other words,
+the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
