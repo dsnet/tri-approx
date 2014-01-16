@@ -15,7 +15,7 @@ my application.
 
 Since this experiment was targetted towards Altera FPGAs, the bit-width of 18
 will appear frequently in the example implementation. This is due to the fact
-that Altera hardware multipliers are take 18b wide inputs and have 36b outputs.
+that Altera hardware multipliers have 18b wide inputs and have 36b wide outputs.
 As such the sine and cosine functions will take in a 20b unsigned fixed-point
 integer upscaled by 2²⁰ and output a 18b two's complement fixed-point integer
 upscaled by 2¹⁷. Notice that the domain of the input is [0,1) and the range of
@@ -41,5 +41,6 @@ for i in range(1,9):
 
 ## References ##
 
-* [Taylor series](http://en.wikipedia.org/wiki/Taylor_series) - Wikipedia article on Taylor series
-* [CORDIC](http://en.wikipedia.org/wiki/CORDIC) - Wikipedia article on CORDIC
+* [fpga_multiplier](http://www.altera.com/literature/hb/cyc2/cyc2_cii51012.pdf) - Embedded multipliers on Cyclone II devices
+* [taylor_series](http://en.wikipedia.org/wiki/Taylor_series) - Wikipedia article on Taylor series
+* [cordic](http://en.wikipedia.org/wiki/CORDIC) - Wikipedia article on CORDIC
