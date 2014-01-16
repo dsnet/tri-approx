@@ -25,6 +25,9 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
+
+![tri-approx-chart1](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart1-lite.png)
+
 The following Python code demonstrates how the
 
 ```python
@@ -36,6 +39,7 @@ for i in range(1,9):
 	print i, int(round(val*2**scale)), scale
 ```
 
+![tri-approx-chart2](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart2-lite.png)
 
 ## Results ##
 
