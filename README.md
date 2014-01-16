@@ -41,6 +41,6 @@ for i in range(1,9):
 
 ## References ##
 
-* [fpga_multiplier](http://www.altera.com/literature/hb/cyc2/cyc2_cii51012.pdf) - Embedded multipliers on Cyclone II devices
-* [taylor_series](http://en.wikipedia.org/wiki/Taylor_series) - Wikipedia article on Taylor series
-* [cordic](http://en.wikipedia.org/wiki/CORDIC) - Wikipedia article on CORDIC
+* [FPGA Multiplier](http://www.altera.com/literature/hb/cyc2/cyc2_cii51012.pdf) - Embedded multipliers on Cyclone II devices
+* [Taylor Series](http://en.wikipedia.org/wiki/Taylor_series) - Wikipedia article on Taylor series
+* [CORDIC](http://en.wikipedia.org/wiki/CORDIC) - Wikipedia article on CORDIC
