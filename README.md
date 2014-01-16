@@ -2,27 +2,43 @@
 
 ## Introduction ##
 
-Many simple embedded applications (microcontrollers, FPGAs, etc) do not come
-with integrated floating-point units. However, the need to
+Most embedded hardware (microcontrollers, FPGAs, etc) are too simple to come
+with integrated floating-point units. However, sometimes there still arises a
+need for complex trigonometric computations. This experimental code attempts to
+numerically compute sine and cosine functions for use on FPGAs.
 
+There are many ways to compute sines and cosine, and the most common algorithms
+are Taylor series and CORDIC. For this experiment, Taylor series was chosen
+over CORDIC because CORDIC uses a relatively large lookup table of constants
+to operate. This table occupied more memory than I was willing to sacrifice for
+my application.
 
-Description: A quick test to verify an algorithm to compute fixed point values
-of basic trigonometric functions using Taylor series. Given that the algorithm
-functions properly and and accurately,
-This method was chosen as
-opposed to CORDIC because a
+Since this experiment was targetted towards Altera FPGAs, the bit-width of 18
+will appear frequently in the example implementation. This is due to the fact
+that Altera hardware multipliers are take 18b wide inputs and have 36b outputs.
+As such the sine and cosine functions will take in a 20b unsigned fixed-point
+integer upscaled by 2<sup>20</sup> and output a 18b two's complement fixed-point
+integer upscaled by 2<sup>17</sup>. Notice that the domain of the input is [0,1)
+and the range of the output is [-1,+1). This is because the sine and cosine
+functions implemented here are normalized such that 0 maps to 0.0 and
+2π maps to 1.0. In other words, the functions being implemented are actually
+sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
+The following Python code demonstrates how the
+
+```python
+for i in range(1,9):
+	val = (2*math.pi)**i/math.factorial(i)
+	scale = 0
+	while val*2**(scale+1) < 2**18:
+		scale += 1
+	print i, int(round(val*2**scale)), scale
+```
+
+
 ## Results ##
-
-## Frequently asked questions ##
-
-### Why not use the CORDIC approximation? ###
-
-CORDIC is a great algorithm for this application. Unfortunately, CORDIC uses
-a relatively large lookup table of constants to operate. This table occupied
-more RAM than I was willing to sacrifice for my application.
 
 ## References ##
 
