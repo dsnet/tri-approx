@@ -18,6 +18,7 @@
 // SOFTWARE.
 // ===================================================================
 
+#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -67,6 +68,68 @@ int main(int argc, char *argv[]) {
             atof(argv[1]),
             fixed_to_float(cosine(float_to_fixed(atof(argv[1]),20)),17)
         );
+    #elif STATS
+        // Compute the estimation error across all possible values
+        size_t i;
+        int domain = 1 << 20;
+        double fdomain = (double)domain;
+
+        double* sin_errs = calloc(domain, sizeof(double));
+        double* cos_errs = calloc(domain, sizeof(double));
+        for (i = 0; i < domain; i++) {
+            // Compute the real value from C math library
+            double float_angle = 2*M_PI*1.0/fdomain*i;
+            double float_sin = sin(float_angle);
+            double float_cos = cos(float_angle);
+
+            // Compute the estimated value fixed-point methods library
+            int64_t fixed_angle = float_to_fixed(1.0/fdomain*i,20);
+            double fixed_sin = fixed_to_float(sine(fixed_angle),17);
+            double fixed_cos = fixed_to_float(cosine(fixed_angle),17);
+
+            sin_errs[i] = fabs(float_sin - fixed_sin);
+            cos_errs[i] = fabs(float_cos - fixed_cos);
+        }
+
+        // Compute average
+        double sin_err_sum = 0.0;
+        double cos_err_sum = 0.0;
+        for (i = 0; i < domain; i++) {
+            sin_err_sum += sin_errs[i];
+            cos_err_sum += cos_errs[i];
+        }
+        double sin_err_avg = sin_err_sum / fdomain;
+        double cos_err_avg = cos_err_sum / fdomain;
+
+        // Compute standard deviation
+        double sin_err_sumsqr = 0.0;
+        double cos_err_sumsqr = 0.0;
+        for (i = 0; i < domain; i++) {
+            sin_err_sumsqr += pow(sin_errs[i] - sin_err_avg, 2.0);
+            cos_err_sumsqr += pow(cos_errs[i] - cos_err_avg, 2.0);
+        }
+        double sin_err_stdev = sqrt(sin_err_sumsqr / fdomain);
+        double cos_err_stdev = sqrt(cos_err_sumsqr / fdomain);
+
+        // Compute the maximum error
+        double sin_err_max = 0.0;
+        double cos_err_max = 0.0;
+        for (i = 0; i < domain; i++) {
+            sin_err_max = fmax(sin_err_max, sin_errs[i]);
+            cos_err_max = fmax(cos_err_max, cos_errs[i]);
+        }
+
+        printf("sine\n");
+        printf("\tavg: %0.12f\n", sin_err_avg);
+        printf("\tstdev: %0.12f\n", sin_err_stdev);
+        printf("\tmax: %0.12f\n", sin_err_max);
+        printf("cosine\n");
+        printf("\tavg: %0.12f\n", cos_err_avg);
+        printf("\tstdev: %0.12f\n", cos_err_stdev);
+        printf("\tmax: %0.12f\n", cos_err_max);
+
+        free(sin_errs);
+        free(cos_errs);
     #endif
 
     return 0;
