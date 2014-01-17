@@ -32,7 +32,7 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ![eqn-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-cosine.png)
 
-![eqn-constats](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constats.png)
+![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
 
 *Mention Taylor series*
 
