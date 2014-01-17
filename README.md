@@ -25,6 +25,15 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
+
+![eqn-taylor-series](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-taylor-series.png)
+
+![eqn-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-sine.png)
+
+![eqn-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-cosine.png)
+
+![eqn-constats](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constats.png)
+
 *Mention Taylor series*
 
 *Mention how reflection is used*
@@ -44,9 +53,9 @@ for i in range(1,9):
 
 ## Results ##
 
-![tri-approx-chart1](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart1-lite.png)
+![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
 
-![tri-approx-chart2](http://code.digital-static.net/tri-approx/raw/tip/doc/tri-approx-chart2-lite.png)
+![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
 
 ## References ##
 
