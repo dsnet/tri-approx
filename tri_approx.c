@@ -120,13 +120,13 @@ int main(int argc, char *argv[]) {
         }
 
         printf("sine\n");
-        printf("\tavg: %0.12f\n", sin_err_avg);
+        printf("\tavg:   %0.12f\n", sin_err_avg);
         printf("\tstdev: %0.12f\n", sin_err_stdev);
-        printf("\tmax: %0.12f\n", sin_err_max);
+        printf("\tmax:   %0.12f\n", sin_err_max);
         printf("cosine\n");
-        printf("\tavg: %0.12f\n", cos_err_avg);
+        printf("\tavg:   %0.12f\n", cos_err_avg);
         printf("\tstdev: %0.12f\n", cos_err_stdev);
-        printf("\tmax: %0.12f\n", cos_err_max);
+        printf("\tmax:   %0.12f\n", cos_err_max);
 
         free(sin_errs);
         free(cos_errs);
