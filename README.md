@@ -25,30 +25,29 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
-
+*Mention Taylor series*
 ![eqn-taylor-series](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-taylor-series.png)
 
+*Mention how this is for normalized sine and cosine*
 ![eqn-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-sine.png)
 
 ![eqn-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-cosine.png)
 
-![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
-
-*Mention Taylor series*
-
 *Mention how reflection is used*
 
 *Mention how only 4 constants are used*
+![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
+
 
 The following Python code demonstrates how the
 
 ```python
-for i in range(1,9):
-	val = (2*math.pi)**i/math.factorial(i)
+for n in range(1,9):
+	val = (2*math.pi)**n/math.factorial(n)
 	scale = 0
 	while val*2**(scale+1) < 2**18:
 		scale += 1
-	print i, int(round(val*2**scale)), scale
+	print n, int(round(val*2**scale)), scale
 ```
 
 ## Results ##
@@ -56,6 +55,17 @@ for i in range(1,9):
 ![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
 
 ![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
+
+```
+sine
+	avg:   0.000003083973
+	stdev: 0.000002215256
+	max:   0.000013829835
+cosine
+	avg:   0.000002815008
+	stdev: 0.000002052349
+	max:   0.000012567624
+```
 
 ## References ##
 
