@@ -25,7 +25,12 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
-*Mention Taylor series*
+01234567890123456789012345678901234567890123456789012345678901234567890123456789
+The approximation method used is based on Taylor series, which is a
+representation of a function through the infinite sum of terms. The formula for
+a Taylor series that represents function *f(x)* centered around point *a* is
+the following:
+
 ![eqn-taylor-series](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-taylor-series.png)
 
 *Mention how this is for normalized sine and cosine*
