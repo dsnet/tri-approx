@@ -68,14 +68,22 @@ hardware resources needed to approximate the trigonometric functions with
 diminishing returns on approximation accuracy.
 
 In both the sine and cosine representations, the values multiplied to the
-variable *x* could be pre-computed and upscaled to fit within an 18-bit value.
-The following equation shows computation of the 8 constants needed for sine
-(odd indexes) and cosine (even indexes):
+variable *x* could be pre-computed. The following equation shows computation of
+the 8 constants needed for sine (odd indexes) and cosine (even indexes):
 
 ![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
 
+Using only 4 non-trivial terms and the pre-computed constants shown above, the
+equation to compute the approximate sine and cosine value is as follows:
+
+![eqn-trig-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-trig-approx.png)
+
+## Results ##
+
 The following Python code demonstrates how the constants were computed and
 upscaled to the largest value that fit within an 18-bit unsigned integer.
+Upscaling is done since all the arithmetic performed is based on fixed-point
+math.
 
 ```python
 for n in range(1,9):
@@ -85,8 +93,6 @@ for n in range(1,9):
 		scale += 1
 	print n, int(round(val*2**scale)), scale
 ```
-
-## Results ##
 
 ![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
 
