@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\begin{document}
+	\begin{align}
+		\begin{split}
+		f(x) &= \sum_{n=0} ^ {\infty} \frac {f^{(n)}(a)}{n!} \, (x-a)^{n} \\
+		     &= f(a)+\frac {f'(a)}{1!} (x-a)+ \frac{f''(a)}{2!} (x-a)^2+\frac{f'''(a)}{3!}(x-a)^3+ \cdots \\
+		\end{split}
+	\end{align}
+
+	\begin{align}
+		\begin{split}
+		sine(2\pi x) &= \sum_{n=0}^\infty \frac{(-1)^n}{(2n+1)!} (2\pi x)^{2n+1} \\
+		             &= \frac{(2\pi x)^1}{1!} - \frac{(2\pi x)^3}{3!} + \frac{(2\pi x)^5}{5!} - \frac{(2\pi x)^7}{7!} + \cdots \\
+		\end{split}
+	\end{align}
+
+	\begin{align}
+		\begin{split}
+		cosine(2\pi x) &= \sum_{n=0}^\infty \frac{(-1)^n}{(2n)!} (2\pi x)^{2n} \\
+		               &= 1 - \frac{(2\pi x)^2}{2!} + \frac{(2\pi x)^4}{4!} - \frac{(2\pi x)^6}{6!} + \frac{(2\pi x)^8}{8!} - \cdots \\
+		\end{split}
+	\end{align}
+
+	\begin{align}
+		\begin{split}
+		k_i = \frac{(2\pi)^i}{i!}, i \in \{1..8\}
+		\end{split}
+	\end{align}
+
+	\begin{align}
+		\begin{split}
+		sine(2\pi x)   &\approx 0 + k_1 x^1 - k_3 x^3 + k_5 x^5 - k_7 x^7 \\
+		cosine(2\pi x) &\approx 1 - k_2 x^2 + k_4 x^4 - k_6 x^6 + k_8 x^8 \\
+		\end{split}
+	\end{align}
+\end{document}
