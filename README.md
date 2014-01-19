@@ -25,20 +25,39 @@ the functions being implemented are actually sine(2πx) and cosine(2πx).
 
 ## Theory ##
 
-01234567890123456789012345678901234567890123456789012345678901234567890123456789
+In a fixed-point approximation, it makes sense to make use of the entire input
+domain. For that reason, I chose to emulate the normalized functions of
+sine(2πx) and cosine(2πx). This way, the entire range of a 20-bit unsigned value
+perfectly covers the input domain to sine or cosine for a full period rotation.
+The use of normalized functions not only makes better utilization of the input,
+but also simplifies the fixed-point arithmetic.
+
 The approximation method used is based on Taylor series, which is a
-representation of a function through the infinite sum of terms. The formula for
+representation of a function through an infinite sum of terms. The formula for
 a Taylor series that represents function *f(x)* centered around point *a* is
-the following:
+the following power series:
 
 ![eqn-taylor-series](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-taylor-series.png)
 
-*Mention how this is for normalized sine and cosine*
+In specific, the type of Taylor series used is technically a Maclaurin series,
+since the representation is centered at *a=0*. This means that the power series
+approximation will be most accurate where *x* is closest to 0.
+
+Using the formula for a Maclaurin series, the following power series
+representations of sine and cosine were derived:
+
 ![eqn-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-sine.png)
 
 ![eqn-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-cosine.png)
 
-*Mention how reflection is used*
+Since this experiment is approximating trigonometric functions which have many
+properties of symmetry and reflection, the power series is only used to estimate
+the values of sine or cosine for the region of [0.0,0.25); in the standard
+trigonometric functions, this is the region of [0°,90°). The other parts of
+trigonometric functions are computed using the first region mirrored in various
+ways to exploit the aforementioned properties. This allows the approximated
+functions to be significantly more accurate using fewer terms in the series.
+
 
 *Mention how only 4 constants are used*
 ![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
