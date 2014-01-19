@@ -70,7 +70,7 @@ diminishing returns on approximation accuracy.
 In both the sine and cosine representations, the values multiplied to the
 variable *x* could be pre-computed and upscaled to fit within an 18-bit value.
 The following equation shows computation of the 8 constants needed for sine
-(odd indexes) and cosine (even indexes).
+(odd indexes) and cosine (even indexes):
 
 ![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
 
