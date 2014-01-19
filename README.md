@@ -41,7 +41,9 @@ the following power series:
 
 In specific, the type of Taylor series used is technically a Maclaurin series,
 since the representation is centered at *a=0*. This means that the power series
-approximation will be most accurate where *x* is closest to 0.
+converges fastest when *x* is closest to 0. In other words, in a power series of
+a finite number of terms, the approximation will be most accurate where *x* is
+closest to 0.
 
 Using the formula for a Maclaurin series, the following power series
 representations of sine and cosine were derived:
@@ -58,12 +60,22 @@ trigonometric functions are computed using the first region mirrored in various
 ways to exploit the aforementioned properties. This allows the approximated
 functions to be significantly more accurate using fewer terms in the series.
 
+With an 18-bit output, it was found that using only 4 non-trivial terms of the
+power series approximations was sufficient to achieve an average error that
+was less than the minimum representable range of a the
+least-significant-bit (LSB). Adding more terms would increase the amount of
+hardware resources needed to approximate the trigonometric functions with
+diminishing returns on approximation accuracy.
 
-*Mention how only 4 constants are used*
+In both the sine and cosine representations, the values multiplied to the
+variable *x* could be pre-computed and upscaled to fit within an 18-bit value.
+The following equation shows computation of the 8 constants needed for sine
+(odd indexes) and cosine (even indexes).
+
 ![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
 
-
-The following Python code demonstrates how the
+The following Python code demonstrates how the constants were computed and
+upscaled to the largest value that fit within an 18-bit unsigned integer.
 
 ```python
 for n in range(1,9):
