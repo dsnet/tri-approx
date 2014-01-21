@@ -13,7 +13,7 @@ over CORDIC because CORDIC uses a relatively large lookup table of constants
 to operate. This table occupied more memory than I was willing to sacrifice for
 my application.
 
-Since this experiment was targetted towards Altera FPGAs, the bit-width of 18
+Since this experiment was targeted towards Altera FPGAs, the bit-width of 18
 will appear frequently in the example implementation. This is due to the fact
 that Altera hardware multipliers have 18b wide inputs and have 36b wide outputs.
 As such the sine and cosine functions will take in a 20b unsigned fixed-point
@@ -62,7 +62,7 @@ functions to be significantly more accurate using fewer terms in the series.
 
 With an 18-bit output, it was found that using only 4 non-trivial terms of the
 power series approximations was sufficient to achieve an average error that
-was less than the minimum representable range of a the
+was less than half the minimum representable range of a the
 least-significant-bit (LSB). Adding more terms would increase the amount of
 hardware resources needed to approximate the trigonometric functions with
 diminishing returns on approximation accuracy.
@@ -74,7 +74,7 @@ the 8 constants needed for sine (odd indexes) and cosine (even indexes):
 ![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
 
 Using only 4 non-trivial terms and the pre-computed constants shown above, the
-equation to compute the approximate sine and cosine value is as follows:
+equations to compute the approximate sine and cosine value is as follows:
 
 ![eqn-trig-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-trig-approx.png)
 
@@ -86,12 +86,10 @@ Upscaling is done since all the arithmetic performed is based on fixed-point
 math.
 
 ```python
-for n in range(1,9):
-	val = (2*math.pi)**n/math.factorial(n)
-	scale = 0
-	while val*2**(scale+1) < 2**18:
-		scale += 1
-	print n, int(round(val*2**scale)), scale
+for i in range(1,9):
+    val = (2*math.pi)**i / math.factorial(i)
+    scale = int(math.log(2**18 / val, 2))
+    print "k_%d = %d / 2^%d" % (i, int(round(val*2**scale)), scale)
 ```
 
 ![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
