@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
 // Uses Taylor series approximation for sine centered at zero:
 //  sine(2*PI*x) = 0 + (2*PI*x)^1/1! - (2*PI*x)^3/3!
 //                   + (2*PI*x)^5/5! - (2*PI*x)^7/7!
-//               = A*x^1 - B*x^3 + C*x^5 - D*x^7
+//               = k_1*x^1 - k_3*x^3 + k_5*x^5 - k_7*x^7
 //
 // The bit-width of 18 appears often because it is the width of hardware
 // multipliers on Altera FPGAs.
@@ -154,10 +154,10 @@ int64_t sine(uint64_t value) {
     // series. They have been upscaled to the largest value that fits within
     // 18-bits for greatest precision. The constants labeled with [ADJ] have
     // been manually adjusted to increase accuracy.
-    uint64_t A = 205887; // A = round((2*PI)^1/1! * 2^15); Scale: 2^15
-    uint64_t B = 169336; // B = round((2*PI)^3/3! * 2^12); Scale: 2^12
-    uint64_t C = 167014; // C = round((2*PI)^5/5! * 2^11); Scale: 2^11 [ADJ]
-    uint64_t D = 150000; // D = round((2*PI)^7/7! * 2^11); Scale: 2^11 [ADJ]
+    uint64_t k1 = 205887; // k1 = round((2*PI)^1/1! * 2^15)
+    uint64_t k3 = 169336; // k3 = round((2*PI)^3/3! * 2^12)
+    uint64_t k5 = 167014; // k5 = round((2*PI)^5/5! * 2^11) [ADJ]
+    uint64_t k7 = 150000; // k7 = round((2*PI)^7/7! * 2^11) [ADJ]
 
     // Uses symmetric properties of sine to get more accurate results
     // Normalize the x value to a 18-bit value upscaled by 2^20
@@ -177,13 +177,13 @@ int64_t sine(uint64_t value) {
     uint64_t x7 = ((x2 * x5) >> 18); // Scale: 2^32
 
     // Compute the polynomial values (these can be done in parallel)
-    uint64_t ax1 = ((A * x1) >> 17); // Scale: 2^18
-    uint64_t bx3 = ((B * x3) >> 18); // Scale: 2^18
-    uint64_t cx5 = ((C * x5) >> 21); // Scale: 2^18
-    uint64_t dx7 = ((D * x7) >> 25); // Scale: 2^18
+    uint64_t kx1 = ((k1 * x1) >> 17); // Scale: 2^18
+    uint64_t kx3 = ((k3 * x3) >> 18); // Scale: 2^18
+    uint64_t kx5 = ((k5 * x5) >> 21); // Scale: 2^18
+    uint64_t kx7 = ((k7 * x7) >> 25); // Scale: 2^18
 
     // Add all the terms together (these can be done in series-parallel)
-    int64_t sum = (ax1 - bx3) + (cx5 - dx7); // Scale: 2^18
+    int64_t sum = kx1 - kx3 + kx5 - kx7; // Scale: 2^18
     sum = sum >> 1; // Scale: 2^17
 
     // Perform reflection math and corrections
@@ -205,7 +205,7 @@ int64_t sine(uint64_t value) {
 // Uses Taylor series approximation for cosines centered at zero:
 //  cosine(2*PI*x) = 1 - (2*PI*x)^2/2! + (2*PI*x)^4/4!
 //                     - (2*PI*x)^6/6! + (2*PI*x)^8/8!
-//                 = 1 - A*x^2 + B*x^4 - C*x^6 + D*x^8
+//                 = 1 - k_2*x^2 + k_4*x^4 - k_6*x^6 + k_8*x^8
 //
 // The bit-width of 18 appears often because it is the width of hardware
 // multipliers on Altera FPGAs.
@@ -217,10 +217,10 @@ int64_t cosine(uint64_t value) {
     // series. They have been upscaled to the largest value that fits within
     // 18-bits for greatest precision. The constants labeled with [ADJ] have
     // been manually adjusted to increase accuracy.
-    uint64_t A = 161704; // A = round((2*PI)^2/2! * 2^13); Scale: 2^13
-    uint64_t B = 132996; // B = round((2*PI)^4/4! * 2^11); Scale: 2^11
-    uint64_t C = 175016; // C = round((2*PI)^6/6! * 2^11); Scale: 2^11
-    uint64_t D = 241700; // D = round((2*PI)^8/8! * 2^12); Scale: 2^12 [ADJ]
+    uint64_t k2 = 161704; // k2 = round((2*PI)^2/2! * 2^13)
+    uint64_t k4 = 132996; // k4 = round((2*PI)^4/4! * 2^11)
+    uint64_t k6 = 175016; // k6 = round((2*PI)^6/6! * 2^11)
+    uint64_t k8 = 241700; // k8 = round((2*PI)^8/8! * 2^12) [ADJ]
 
     // Uses symmetric properties of cosine to get more accurate results
     // Normalize the x value to a 18-bit value upscaled by 2^20
@@ -240,13 +240,13 @@ int64_t cosine(uint64_t value) {
     uint64_t x8 = ((x4 * x4) >> 18); // Scale: 2^34
 
     // Compute the polynomial values (these can be done in parallel)
-    uint64_t ax2 = ((A * x2) >> 17); // Scale: 2^18
-    uint64_t bx4 = ((B * x4) >> 19); // Scale: 2^18
-    uint64_t cx6 = ((C * x6) >> 23); // Scale: 2^18
-    uint64_t dx8 = ((D * x8) >> 28); // Scale: 2^18
+    uint64_t kx2 = ((k2 * x2) >> 17); // Scale: 2^18
+    uint64_t kx4 = ((k4 * x4) >> 19); // Scale: 2^18
+    uint64_t kx6 = ((k6 * x6) >> 23); // Scale: 2^18
+    uint64_t kx8 = ((k8 * x8) >> 28); // Scale: 2^18
 
     // Add all the terms together (these can be done in series-parallel)
-    int64_t sum = (((int64_t)1 << 18) - ax2) + (bx4 - cx6) + dx8; // Scale: 2^18
+    int64_t sum = ((int64_t)1 << 18) - kx2 + kx4 - kx6 + kx8; // Scale: 2^18
     sum = sum >> 1; // Scale: 2^17
 
     // Perform reflection math and corrections
