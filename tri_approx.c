@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 
 int64_t sine(uint64_t value);
@@ -154,21 +155,21 @@ int64_t sine(uint64_t value) {
     // series. They have been upscaled to the largest value that fits within
     // 18-bits for greatest precision. The constants labeled with [ADJ] have
     // been manually adjusted to increase accuracy.
-    uint64_t k1 = 205887; // k1 = round((2*PI)^1/1! * 2^15)
-    uint64_t k3 = 169336; // k3 = round((2*PI)^3/3! * 2^12)
-    uint64_t k5 = 167014; // k5 = round((2*PI)^5/5! * 2^11) [ADJ]
-    uint64_t k7 = 150000; // k7 = round((2*PI)^7/7! * 2^11) [ADJ]
+    const uint64_t k1 = 205887; // k1 = round((2*PI)^1/1! * 2^15)
+    const uint64_t k3 = 169336; // k3 = round((2*PI)^3/3! * 2^12)
+    const uint64_t k5 = 167014; // k5 = round((2*PI)^5/5! * 2^11) [ADJ]
+    const uint64_t k7 = 150000; // k7 = round((2*PI)^7/7! * 2^11) [ADJ]
 
     // Uses symmetric properties of sine to get more accurate results
     // Normalize the x value to a 18-bit value upscaled by 2^20
-    int high0 = ((value >> 19) & 0x01);
-    int high1 = ((value >> 18) & 0x01);
-    uint64_t x1 = value & 0x3ffff;
+    bool high0 = ((value >> 19) & 0x01);
+    bool high1 = ((value >> 18) & 0x01);
+    uint64_t x1 = value & 0x3ffff; // Strip two highest bits
     if (high1) {
         x1 = (((uint64_t)0x1 << 18) - x1) & 0x3ffff;
     }
-    int negative = high0;
-    int one = (!x1 && high1)? 1 : 0;
+    bool negative = high0;
+    bool one = (x1 == 0) && high1;
 
     // Compute the power values (most of these must be done in series)
     uint64_t x2 = ((x1 * x1) >> 18); // Scale: 2^22
@@ -190,10 +191,11 @@ int64_t sine(uint64_t value) {
     if (one) { // Check if sum should be one
         sum = (1 << 17)-1;
     }
+    if (sum & (1 << 17)) { // Check for positive overflow
+        sum = (1 << 17)-1;
+    }
     if (negative) { // Check if the sum should be negative
         sum = ~sum + 1;
-    } else if (sum & (1 << 17)) { // Check for positive overflow
-        sum = (1 << 17)-1;
     }
     return sum;
 }
@@ -217,21 +219,21 @@ int64_t cosine(uint64_t value) {
     // series. They have been upscaled to the largest value that fits within
     // 18-bits for greatest precision. The constants labeled with [ADJ] have
     // been manually adjusted to increase accuracy.
-    uint64_t k2 = 161704; // k2 = round((2*PI)^2/2! * 2^13)
-    uint64_t k4 = 132996; // k4 = round((2*PI)^4/4! * 2^11)
-    uint64_t k6 = 175016; // k6 = round((2*PI)^6/6! * 2^11)
-    uint64_t k8 = 241700; // k8 = round((2*PI)^8/8! * 2^12) [ADJ]
+    const uint64_t k2 = 161704; // k2 = round((2*PI)^2/2! * 2^13)
+    const uint64_t k4 = 132996; // k4 = round((2*PI)^4/4! * 2^11)
+    const uint64_t k6 = 175016; // k6 = round((2*PI)^6/6! * 2^11)
+    const uint64_t k8 = 241700; // k8 = round((2*PI)^8/8! * 2^12) [ADJ]
 
     // Uses symmetric properties of cosine to get more accurate results
     // Normalize the x value to a 18-bit value upscaled by 2^20
-    int high0 = ((value >> 19) & 0x01);
-    int high1 = ((value >> 18) & 0x01);
-    uint64_t x1 = value & 0x3ffff;
+    bool high0 = ((value >> 19) & 0x01);
+    bool high1 = ((value >> 18) & 0x01);
+    uint64_t x1 = value & 0x3ffff; // Strip two highest bits
     if (high1) {
         x1 = (((uint64_t)0x1 << 18) - x1) & 0x3ffff;
     }
-    int negative = high0 ^ high1;
-    int zero = (!x1 && high1)? 1 : 0;
+    bool negative = high0 ^ high1;
+    bool zero = (x1 == 0) && high1;
 
     // Compute the power values (most of these must be done in series)
     uint64_t x2 = ((x1 * x1) >> 18); // Scale: 2^22
@@ -253,10 +255,11 @@ int64_t cosine(uint64_t value) {
     if (zero) { // Check if sum should be zero
         sum = 0;
     }
+    if (sum & (1 << 17)) { // Check for positive overflow
+        sum = (1 << 17)-1;
+    }
     if (negative) { // Check if the sum should be negative
         sum = ~sum + 1;
-    } else if (sum & (1 << 17)) { // Check for positive overflow
-        sum = (1 << 17)-1;
     }
     return sum;
 }
