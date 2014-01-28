@@ -105,9 +105,12 @@ could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
+Pipelined implementation of sine. The hardware resource required for sine is
+slightly less than that of cosine. However, it is slightly less accurate also.
+
 ![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
-In the computation of cosine, note that the stage to compute *x⁸* could be
+Pipelined implementation of cosine. Note that the stage to compute *x⁸* could be
 reduced since it could be computed in parallel with *x⁶* by squaring *x⁴*.
 This extra stage was kept so that the pipeline lengths would be identical for
 sine and cosine computations.
