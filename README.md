@@ -105,8 +105,8 @@ could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
-Pipelined implementation of sine. The hardware resource required for sine is
-slightly less than that of cosine. However, it is slightly less accurate also.
+Pipelined implementation of sine. The hardware resources required for sine is
+slightly less than that of cosine. However, it is also slightly less accurate.
 
 ![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
@@ -114,6 +114,11 @@ Pipelined implementation of cosine. Note that the stage to compute *x⁸* could 
 reduced since it could be computed in parallel with *x⁶* by squaring *x⁴*.
 This extra stage was kept so that the pipeline lengths would be identical for
 sine and cosine computations.
+
+In both FPGA implementations, the pipeline length is 6 stages. The shaded green
+regions represent logic needed to do reflections and corrections, while the
+shaded blue regions represent the logic actually need to do the Taylor series
+expansions.
 
 
 ## Results ##
