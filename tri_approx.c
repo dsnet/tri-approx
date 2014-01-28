@@ -23,12 +23,14 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <assert.h>
 
 
 int64_t sine(uint64_t value);
 int64_t cosine(uint64_t value);
 double fixed_to_float(int64_t value, int scale);
 int64_t float_to_fixed(double value, int scale);
+int64_t clamp_overflow(int64_t value, int width);
 
 
 int main(int argc, char *argv[]) {
@@ -189,15 +191,12 @@ int64_t sine(uint64_t value) {
 
     // Perform reflection math and corrections
     if (one) { // Check if sum should be one
-        sum = (1 << 17)-1;
-    }
-    if (sum & (1 << 17)) { // Check for positive overflow
-        sum = (1 << 17)-1;
+        sum = (1 << 17);
     }
     if (negative) { // Check if the sum should be negative
         sum = ~sum + 1;
     }
-    return sum;
+    return clamp_overflow(sum, 18);
 }
 
 
@@ -255,13 +254,10 @@ int64_t cosine(uint64_t value) {
     if (zero) { // Check if sum should be zero
         sum = 0;
     }
-    if (sum & (1 << 17)) { // Check for positive overflow
-        sum = (1 << 17)-1;
-    }
     if (negative) { // Check if the sum should be negative
         sum = ~sum + 1;
     }
-    return sum;
+    return clamp_overflow(sum, 18);
 }
 
 
@@ -274,4 +270,23 @@ double fixed_to_float(int64_t value, int scale) {
 // Convert a floating-point value to a fixed-point value.
 int64_t float_to_fixed(double value, int scale) {
     return (int64_t)((value*((int64_t)0x1 << scale)) + 0.5);
+}
+
+
+// Clamp an overflowed fixed-point two's complement value.
+int64_t clamp_overflow(int64_t value, int width) {
+    bool high0 = ((value >> (width+0)) & 0x01);
+    bool high1 = ((value >> (width-1)) & 0x01);
+    if (high0 ^ high1) {
+        if (high0) {
+            value = (-1 << width-1);
+        } else {
+            value = (1 << width-1) - 1;
+        }
+    }
+
+    // Sanity check to ensure there is no overflow
+    int64_t high = value >> width-1;
+    assert((high == 0x0000000000000000LL) || (high == 0xFFFFFFFFFFFFFFFFLL));
+    return value;
 }
