@@ -105,8 +105,9 @@ could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
-Pipelined implementation of sine. The hardware resources required for sine is
-slightly less than that of cosine. However, it is also slightly less accurate.
+Pipelined implementation of sine. Sine requires more registers to hold state
+between stages and thus uses more hardware resources than cosine. Furthermore,
+analysis later will show that sine is also less accurate.
 
 ![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
