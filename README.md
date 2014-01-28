@@ -117,8 +117,12 @@ sine and cosine computations.
 
 In both FPGA implementations, the pipeline length is 6 stages. The shaded green
 regions represent logic needed to do reflections and corrections, while the
-shaded blue regions represent the logic actually need to do the Taylor series
-expansions.
+shaded blue regions represent the logic actually needed to do the Taylor series
+expansions. The *CLAMP* operator at the end of both pipelines is performing the
+overflow check as shown in the C implementation. Also, all the constants shown
+are not upscaled according to their fixed-point counterpoints. In general, the
+bit-widths of the data lines is 18-bits. However, the wiring to shift the bits
+is not shown.
 
 
 ## Results ##
