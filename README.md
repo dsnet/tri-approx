@@ -23,6 +23,7 @@ the output is [-1,+1). This is because the sine and cosine functions implemented
 here are normalized such that 0 maps to 0.0 and 2π maps to 1.0. In other words,
 the functions being implemented are actually sine(2πx) and cosine(2πx).
 
+
 ## Theory ##
 
 In a fixed-point approximation, it makes sense to make use of the entire input
@@ -78,6 +79,7 @@ equations to compute the approximate sine and cosine value is as follows:
 
 ![eqn-trig-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-trig-approx.png)
 
+
 ## Implementation ##
 
 In order to reduce the amount of hardware resources needed, the *k* constants
@@ -101,9 +103,15 @@ It was assumed that the hardware multipliers held the highest latency and would
 take a single cycle to execute, while all addition and subtraction operations
 could complete in a single cycle.
 
-In the computation of cosine, note that the stage prior to computing *x⁶* and
-*x⁸* could be removed. This extra stage was kept so that the pipeline lengths
-would be identical for sine and cosine.
+![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
+
+![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
+
+In the computation of cosine, note that the stage to compute *x⁸* could be
+reduced since it could be computed in parallel with *x⁶* by squaring *x⁴*.
+This extra stage was kept so that the pipeline lengths would be identical for
+sine and cosine computations.
+
 
 ## Results ##
 
@@ -113,14 +121,15 @@ would be identical for sine and cosine.
 
 ```
 sine
-	avg:   0.000003083973
-	stdev: 0.000002215256
+	avg:   0.000003083966
+	stdev: 0.000002215253
 	max:   0.000013829835
 cosine
 	avg:   0.000002815008
 	stdev: 0.000002052349
 	max:   0.000012567624
 ```
+
 
 ## References ##
 
