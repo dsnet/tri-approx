@@ -101,7 +101,7 @@ Since the target platform was an FPGA, the operations involved with Taylor
 series approximation allow for the implementation to be easily pipelined.
 It was assumed that the hardware multipliers held the highest latency and would
 take a single cycle to execute, while all addition and subtraction operations
-could complete in a single cycle.
+together could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
@@ -119,11 +119,14 @@ sine and cosine computations.
 In both FPGA implementations, the pipeline length is 6 stages. The shaded green
 regions represent logic needed to do reflections and corrections, while the
 shaded blue regions represent the logic actually needed to do the Taylor series
-expansions. The *CLAMP* operator at the end of both pipelines is performing the
-overflow check as shown in the C implementation. Also, all the constants shown
-are not upscaled according to their fixed-point counterpoints. In general, the
-bit-widths of the data lines is 18-bits. However, the wiring to shift the bits
-is not shown.
+expansions. Also, all the constants shown are not upscaled according to their
+fixed-point counterpoints. In general, the bit-widths of the data lines is 18b.
+However, the wiring to shift the bits is not shown.
+
+The *HIGH0* and *HIGH1* operators at the start of the pipelines extract the
+most-significant-bit and second most-significant-bit, respectively. The *STRIP*
+operator removes the top two bits. The *CLAMP* operator at the end of both
+pipelines is performing the overflow check as shown in the C implementation.
 
 
 ## Results ##
