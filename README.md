@@ -7,7 +7,7 @@ with integrated floating-point units. However, sometimes there still arises a
 need for complex trigonometric computations. This experimental code attempts to
 numerically compute sine and cosine functions for use on FPGAs.
 
-There are many ways to compute sines and cosine, and the most common algorithms
+There are many ways to compute sine and cosine, and the most common algorithms
 are Taylor series and CORDIC. For this experiment, Taylor series was chosen
 over CORDIC because CORDIC uses a relatively large lookup table of constants
 to operate. This table occupied more memory than I was willing to sacrifice for
@@ -63,7 +63,7 @@ functions to be significantly more accurate using fewer terms in the series.
 
 With an 18-bit output, it was found that using only 4 non-trivial terms of the
 power series approximations was sufficient to achieve an average error that
-was less than half the minimum representable range of a the
+was less than half the minimum representable range of the
 least-significant-bit (LSB). Adding more terms would increase the amount of
 hardware resources needed to approximate the trigonometric functions with
 diminishing returns on approximation accuracy.
@@ -105,14 +105,14 @@ together could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
-Pipelined designs of sine. Sine requires more registers to hold state between
+Pipelined design of sine. Sine requires more registers to hold state between
 stages and thus uses more hardware resources than cosine.
 Furthermore, analysis later will show that sine is also less accurate.
 
 ![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
-Pipelined designs of cosine. Note that the stage to compute *x⁸* could be
-reduced since it could be computed in parallel with *x⁶* by squaring *x⁴*.
+Pipelined design of cosine. Note that the stage to compute *x⁸* could be
+eliminated since it could be computed in parallel with *x⁶* by squaring *x⁴*.
 This extra stage was kept so that the pipeline lengths would be identical for
 sine and cosine computations.
 
