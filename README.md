@@ -158,6 +158,15 @@ improve the maximum error. With sine and cosine, these two goals were at odds
 with each other. In improving the average error, the maximum error would get
 worse, or vice-versa. Choosing a good compromise took human intuition.
 
+The graph below shows the errors in approximation using the tweaked constants
+that we settled upon. The two horizontal green lines represent the values *+ε*
+and *-ε*. The red and blue lines that are smooth and solid represent the error
+when using a floating-point approximation. Note that the maximum of these errors
+almost lie entirely within *±ε*. Lastly, the red and blue shaded regions
+represent the error when using the fixed-point approximation. These errors
+generally follow the trend of the floating-point error, but are worse due to
+truncation errors.
+
 ![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
 
 ```
