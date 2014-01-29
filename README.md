@@ -144,9 +144,9 @@ arithmetic in the C implementation.
 ![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
 
 With 18-bits used for the fixed-point representation, the LSB maps to a quantum
-of about 7.63E-06. If we could approximate sines and cosines perfectly, we would
+of about 7.63E-6. If we could approximate sines and cosines perfectly, we would
 expect an maximum errors to be no worse than half the quantum. We will define
-this value of 3.81E-06 as the error epsilon, *ε*.
+this value of 3.81E-6 as the error epsilon, *ε*.
 
 However, since we are only using a 4-term approximation, we obviously cannot get
 maximum errors below *ε*. For this reason, some of the *k* constants in the later
@@ -169,16 +169,14 @@ truncation errors.
 
 ![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
 
-```
-sine
-	avg:   0.000003083966
-	stdev: 0.000002215253
-	max:   0.000013829835
-cosine
-	avg:   0.000002815008
-	stdev: 0.000002052349
-	max:   0.000012567624
-```
+Using a short C program to exhaustively compute all values in the input domain,
+we could compute the average and maximum errors of our fixed-point
+approximations. The sine approximation had an average error of 3.08E-6±2.22E-6
+and a maximum error of 13.8E-6. The cosine approximation had an average error
+of 2.82E-6±2.05E-6 and a maximum error of 12.6E-6. Given that the cosine design
+takes less hardware resources and is actually more accurate, it may make sense
+to implement cosine over sine. Sine itself can be obtained from cosine by
+shifting the input by 90°.
 
 
 ## References ##
