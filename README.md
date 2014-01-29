@@ -173,10 +173,11 @@ Using a short C program to exhaustively compute all values in the input domain,
 we could compute the average and maximum errors of our fixed-point
 approximations. The sine approximation had an average error of (3.08±2.22)E-6
 and a maximum error of 13.8E-6. The cosine approximation had an average error
-of (2.82±2.05)E-6 and a maximum error of 12.6E-6. Given that the cosine design
-takes less hardware resources and is actually more accurate, it may make sense
-to implement cosine over sine. Sine itself can be obtained from cosine by
-shifting the input by 90°.
+of (2.82±2.05)E-6 and a maximum error of 12.6E-6.
+
+Given that the cosine design takes less hardware resources and is actually more
+accurate, it may make sense to implement cosine over sine. Sine itself can be
+obtained from cosine by shifting the input by 90°.
 
 
 ## References ##
