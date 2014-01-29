@@ -98,29 +98,29 @@ for i in range(1,9):
 ```
 
 Since the target platform was an FPGA, the operations involved with Taylor
-series approximation allow for the implementation to be easily pipelined.
+series approximation allow for the designs to be easily pipelined.
 It was assumed that the hardware multipliers held the highest latency and would
 take a single cycle to execute, while all addition and subtraction operations
 together could complete in a single cycle.
 
 ![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
-Pipelined implementation of sine. Sine requires more registers to hold state
-between stages and thus uses more hardware resources than cosine. Furthermore,
-analysis later will show that sine is also less accurate.
+Pipelined designs of sine. Sine requires more registers to hold state between
+stages and thus uses more hardware resources than cosine.
+Furthermore, analysis later will show that sine is also less accurate.
 
 ![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
-Pipelined implementation of cosine. Note that the stage to compute *x⁸* could be
+Pipelined designs of cosine. Note that the stage to compute *x⁸* could be
 reduced since it could be computed in parallel with *x⁶* by squaring *x⁴*.
 This extra stage was kept so that the pipeline lengths would be identical for
 sine and cosine computations.
 
-In both FPGA implementations, the pipeline length is 6 stages. The shaded green
-regions represent logic needed to do reflections and corrections, while the
-shaded blue regions represent the logic actually needed to do the Taylor series
-expansions. Also, all the constants shown are not upscaled according to their
-fixed-point counterpoints. In general, the bit-widths of the data lines is 18b.
+In both FPGA designs, the pipeline length is 6 stages. The shaded green regions
+represent logic needed to do reflections and corrections, while the shaded blue
+regions represent the logic actually needed to do the Taylor series expansions.
+Also, all the constants shown are not upscaled according to their fixed-point
+counterpoints. In general, the bit-widths of the data lines is 18b.
 However, the wiring to shift the bits is not shown.
 
 The *HIGH0* and *HIGH1* operators at the start of the pipelines extract the
@@ -131,7 +131,32 @@ pipelines is performing the overflow check as shown in the C implementation.
 
 ## Results ##
 
+Using the values generated from the C implementation, we can plot the sine
+and cosine functions approximated by this method. In the graph below, it appears
+that only a single sine and a single cosine is graphed. In actuality, the real,
+floating-point approximate, and fixed-point approximate are graphed together.
+It is clear from a graph of this resolution that their errors are negligible.
+The floating-point approximate is the result obtained when the 4-term equations
+listed above are computed using IEEE 754 floating-point units, while the
+fixed-point approximate is the result obtained using the 18b wide fixed-point
+arithmetic in the C implementation.
+
 ![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
+
+With 18-bits used for the fixed-point representation, the LSB maps to a quantum
+of about 7.63E-06. If we could approximate sines and cosines perfectly, we would
+expect an maximum errors to be no worse than half the quantum. We will define
+this value of 3.81E-06 as the error epsilon, *ε*.
+
+However, since we are only using a 4-term approximation, we obviously cannot get
+maximum errors below *ε*. For this reason, some of the *k* constants in the later
+terms were manually adjusted to compensate for the lack of infinite terms at the
+end. Manually tweaking of the constants did not follow any sort of rigorous
+method and was mainly done till the average and maximum errors "seemed better".
+In tweaking the constants, there were two goals: improve the average error and
+improve the maximum error. With sine and cosine, these two goals were at odds
+with each other. In improving the average error, the maximum error would get
+worse, or vice-versa. Choosing a good compromise took human intuition.
 
 ![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
 
