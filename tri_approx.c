@@ -33,7 +33,7 @@ int64_t float_to_fixed(double value, int scale);
 int64_t clamp_overflow(int64_t value, int width);
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
     #if DEMO
         // Simple demo program prints out the 4096 samples of the approximate
         // sine and cosine waves
