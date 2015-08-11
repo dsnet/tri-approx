@@ -38,7 +38,7 @@ representation of a function through an infinite sum of terms. The formula for
 a Taylor series that represents function *f(x)* centered around point *a* is
 the following power series:
 
-![eqn-taylor-series](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-taylor-series.png)
+![eqn-taylor-series](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/eqn-taylor-series.png)
 
 In specific, the type of Taylor series used is technically a Maclaurin series,
 since the representation is centered at *a=0*. This means that the power series
@@ -49,9 +49,9 @@ closest to 0.
 Using the formula for a Maclaurin series, the following power series
 representations of sine and cosine were derived:
 
-![eqn-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-sine.png)
+![eqn-sine](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/eqn-sine.png)
 
-![eqn-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-cosine.png)
+![eqn-cosine](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/eqn-cosine.png)
 
 Since this experiment is approximating trigonometric functions which have many
 properties of symmetry and reflection, the power series is only used to estimate
@@ -72,12 +72,12 @@ In both the sine and cosine representations, the values multiplied to the
 variable *x* could be pre-computed. The following equation shows computation of
 the 8 constants needed for sine (odd indexes) and cosine (even indexes):
 
-![eqn-constants](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-constants.png)
+![eqn-constants](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/eqn-constants.png)
 
 Using only 4 non-trivial terms and the pre-computed constants shown above, the
 equations to compute the approximate sine and cosine value is as follows:
 
-![eqn-trig-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/eqn-trig-approx.png)
+![eqn-trig-approx](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/eqn-trig-approx.png)
 
 
 ## Implementation ##
@@ -103,13 +103,13 @@ It was assumed that the hardware multipliers held the highest latency and would
 take a single cycle to execute, while all addition and subtraction operations
 together could complete in a single cycle.
 
-![pipeline-sine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
+![pipeline-sine](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/pipeline-sine_lite.png)
 
 Pipelined design of sine. Sine requires more registers to hold state between
 stages and thus uses more hardware resources than cosine.
 Furthermore, analysis later will show that sine is also less accurate.
 
-![pipeline-cosine](http://code.digital-static.net/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
+![pipeline-cosine](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/pipeline-cosine_lite.png)
 
 Pipelined design of cosine. Note that the stage to compute *x⁸* could be
 eliminated since it could be computed in parallel with *x⁶* by squaring *x⁴*.
@@ -141,7 +141,7 @@ listed above are computed using IEEE 754 floating-point units, while the
 fixed-point approximate is the result obtained using the 18b wide fixed-point
 arithmetic in the C implementation.
 
-![chart-approx](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-approx.png)
+![chart-approx](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/chart-approx.png)
 
 With 18-bits used for the fixed-point representation, the LSB maps to a quantum
 of about 7.63E-6. If we could approximate sines and cosines perfectly, we would
@@ -167,7 +167,7 @@ represent the error when using the fixed-point approximation. These errors
 generally follow the trend of the floating-point error, but are worse due to
 truncation errors.
 
-![chart-error](http://code.digital-static.net/tri-approx/raw/tip/doc/chart-error.png)
+![chart-error](http://bitbucket.org/rawr/tri-approx/raw/tip/doc/chart-error.png)
 
 Using a short C program to exhaustively compute all values in the input domain,
 we could compute the average and maximum errors of our fixed-point
